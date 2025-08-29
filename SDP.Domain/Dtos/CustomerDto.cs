@@ -1,23 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SDP.Domain.Entities
+﻿namespace SDP.Domain.Dtos
 {
-    [Table(name: "Customers", Schema = "Sales")]
-    public class Customer
+    public class CustomerDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustId { get; set; }
         public string CompanyName { get; set; } = string.Empty;
         public string ContactName { get; set; } = string.Empty;
         public string ContactTitle { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
-        public string? Region { get; set; }
-        public string? PostalCode { get; set; }
+        public string Region { get; set; } = string.Empty;
+        public string PostalCode { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
-        public string? Fax { get; set; }
+        public string Fax { get; set; } = string.Empty;
     }
 }

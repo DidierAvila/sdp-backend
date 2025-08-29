@@ -8,8 +8,8 @@ namespace SDP.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Shipperid { get; set; }
-        public string Companyname { get; set; } = string.Empty;
+        public int ShipperId { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
     }
 }

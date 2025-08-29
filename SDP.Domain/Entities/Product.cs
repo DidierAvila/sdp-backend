@@ -8,11 +8,11 @@ namespace SDP.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Productid { get; set; }
-        public string Productname { get; set; } = string.Empty;
-        public int Supplierid { get; set; }
-        public int Categoryid { get; set; }
-        public decimal Unitprice { get; set; }
-        public byte Discontinued { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public int SupplierId { get; set; }
+        public int CategoryId { get; set; }
+        public decimal UnitPrice { get; set; }
+        public bool Discontinued { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SDP.Domain.Dtos;
+using SDP.Domain.UseCases.Shippers.Queries;
 
 namespace SDP.API.Controllers
 {
@@ -7,10 +8,18 @@ namespace SDP.API.Controllers
     [Route("[controller]")]
     public class ShipperController : ControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ShipperDto>>> GetAll()
+        private readonly IShipperQueryHandler _shipperQueryHandler;
+
+        public ShipperController(IShipperQueryHandler shipperQueryHandler)
         {
-            return Ok(new[] { "Product1", "Product2", "Product3" });
+            _shipperQueryHandler = shipperQueryHandler;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ShipperDto>>> GetAll(CancellationToken cancellationToken)
+        {
+            var result = await _shipperQueryHandler.GetAllShippersAsync(cancellationToken);
+            return Ok(result);
         }
     }
 }

@@ -1,15 +1,24 @@
-using SDP.API.Extensions; // Ensure AutoMapper namespace is included
+using SDP.API.Extensions;
+using SDP.Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddApiExtention();
-builder.Services.AddApiMapper();
 // OpenAPI minimal (ya estaba)
 builder.Services.AddOpenApi();
 // SwaggerGen para documentación interactiva
 builder.Services.AddSwaggerGen();
+
+// Configure Entity Framework
+builder.Services.AddDbContext<SdpContex>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddApiExtention();
+
+builder.Services.AddApiMapper();
+
 
 var app = builder.Build();
 
