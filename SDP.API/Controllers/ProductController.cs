@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SDP.API.Utils;
 using SDP.Domain.Dtos;
 using SDP.Domain.UseCases.Products.Queries;
 
@@ -16,10 +17,12 @@ namespace SDP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(
+            [FromQuery] ProductQueryParameters parameters,
+            CancellationToken cancellationToken)
         {
-            var result = await _productQueryHandler.GetAllProductsAsync(cancellationToken);
-            return Ok(result);
+            var result = await _productQueryHandler.GetAllProductsAsync(parameters, cancellationToken);
+            return this.CreatePagedResponse(result);
         }
     }
 }

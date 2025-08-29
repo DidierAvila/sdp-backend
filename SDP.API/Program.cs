@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Configuración de CORS
+builder.Services.AddCorsPolicy(builder.Configuration);
 // OpenAPI minimal (ya estaba)
 builder.Services.AddOpenApi();
 // SwaggerGen para documentación interactiva
@@ -36,6 +39,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Habilitar CORS
+app.UseCors("AllowSdpFrontend");
 
 app.UseAuthorization();
 

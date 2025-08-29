@@ -1,9 +1,10 @@
-﻿using SDP.Domain.Dtos;
+﻿using SDP.Domain.Common;
+using SDP.Domain.Dtos;
 
 namespace SDP.Domain.UseCases.Employees.Queries
 {
     public interface IEmployeeQueryHandler
     {
-        Task<IEnumerable<EmployeeDto>> GetAllEmployeesAsync(CancellationToken cancellationToken);
+        Task<PagedList<EmployeeDto>> GetAllEmployeesAsync(EmployeeQueryParameters parameters, CancellationToken cancellationToken);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using SDP.Domain.Common;
+using SDP.Domain.Repository;
 using SDP.Infrastructure.DbContexts;
 
 namespace SDP.Infrastructure.Repository
 {
-    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
+    public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
     {
         internal readonly SdpContex _context;
         public RepositoryBase(SdpContex context) => _context = context;
@@ -53,6 +55,31 @@ namespace SDP.Infrastructure.Repository
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<(IEnumerable<TEntity> items, int totalCount)> GetPagedAsync(
+            Expression<Func<TEntity, bool>>? filterExpression,
+            int pageNumber,
+            int pageSize,
+            string? orderBy,
+            CancellationToken cancellationToken)
+        {
+            var query = EntitySet.AsNoTracking();
+            
+            if (filterExpression != null)
+                query = query.Where(filterExpression);
+            
+            var totalCount = await query.CountAsync(cancellationToken);
+            
+            if (!string.IsNullOrWhiteSpace(orderBy))
+                query = query.ApplySort(orderBy);
+            
+            var items = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(cancellationToken);
+            
+            return (items, totalCount);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SDP.API.Utils;
 using SDP.Domain.Dtos;
 using SDP.Domain.UseCases.Employees.Queries;
 
@@ -16,10 +17,12 @@ namespace SDP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(
+            [FromQuery] EmployeeQueryParameters parameters,
+            CancellationToken cancellationToken)
         {
-            var result = await _employeeQueryHandler.GetAllEmployeesAsync(cancellationToken);
-            return Ok(result);
+            var result = await _employeeQueryHandler.GetAllEmployeesAsync(parameters, cancellationToken);
+            return this.CreatePagedResponse(result);
         }
     }
 }

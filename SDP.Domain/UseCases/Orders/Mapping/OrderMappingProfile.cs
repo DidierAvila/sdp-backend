@@ -4,15 +4,12 @@ using SDP.Domain.Entities;
 
 namespace SDP.Domain.UseCases.Orders.Mapping
 {
-    public class OrderMapping : Profile
+    public class OrderMappingProfile : Profile
     {
-        public OrderMapping()
+        public OrderMappingProfile()
         {
             // Mapeo de Order a OrderDto
             CreateMap<Order, OrderDto>();
-
-            // Mapeo de OrderDto a Order
-            CreateMap<OrderDto, Order>();
             
             // Mapeo de CreateOrderDto a Order
             CreateMap<CreateOrderDto, Order>();

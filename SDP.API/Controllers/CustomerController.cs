@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SDP.API.Utils;
 using SDP.Domain.Dtos;
 using SDP.Domain.UseCases.Customers.Queries;
 
@@ -16,10 +17,12 @@ namespace SDP.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDto>>> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(
+            [FromQuery] CustomerQueryParameters parameters,
+            CancellationToken cancellationToken)
         {
-            var result = await _customerQueryHandler.GetAllCustomersAsync(cancellationToken);
-            return Ok(result);
+            var result = await _customerQueryHandler.GetAllCustomersAsync(parameters, cancellationToken);
+            return this.CreatePagedResponse(result);
         }
 
         [HttpGet("{id}")]
