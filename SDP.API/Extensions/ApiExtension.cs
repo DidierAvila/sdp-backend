@@ -1,9 +1,11 @@
 ﻿using SDP.Domain.Repository;
 using SDP.Domain.UseCases.Customers.Queries;
 using SDP.Domain.UseCases.Employees.Queries;
+using SDP.Domain.UseCases.OrderDetails.Queries;
 using SDP.Domain.UseCases.Orders.Commands;
 using SDP.Domain.UseCases.Orders.Queries;
 using SDP.Domain.UseCases.Products.Queries;
+using SDP.Domain.UseCases.Sales.Queries;
 using SDP.Domain.UseCases.Shippers.Queries;
 using SDP.Infrastructure.Repository;
 
@@ -19,6 +21,7 @@ namespace SDP.API.Extensions
             services.AddScoped<IShipperRepository, ShipperRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             
             // Register query handlers
             services.AddScoped<IEmployeeQueryHandler, EmployeeQueryHandler>();
@@ -26,6 +29,8 @@ namespace SDP.API.Extensions
             services.AddScoped<IShipperQueryHandler, ShipperQueryHandler>();
             services.AddScoped<ICustomerQueryHandler, CustomerQueryHandler>();
             services.AddScoped<IOrderQueryHandler, OrderQueryHandler>();
+            services.AddScoped<IOrderDetailQueryHandler, OrderDetailQueryHandler>();
+            services.AddScoped<ISalesPredictionQueryHandler, SalesPredictionQueryHandler>();
             
             // Register command handlers
             services.AddScoped<ICreateOrderCommandHandler, CreateOrderCommandHandler>();

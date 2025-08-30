@@ -13,5 +13,8 @@ namespace SDP.Domain.Dtos
         public string? ShipRegion { get; set; }
         public string? ShipPostalCode { get; set; }
         public string ShipCountry { get; set; } = string.Empty;
+        
+        // Lista de detalles de la orden
+        public List<CreateOrderDetailDto> OrderDetails { get; set; } = new List<CreateOrderDetailDto>();
     }
 }

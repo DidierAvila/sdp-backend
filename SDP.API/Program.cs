@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+// Configurar FluentValidation y registrar los validadores
+builder.Services.AddFluentValidationConfiguration();
+
 // Configuración de CORS
 builder.Services.AddCorsPolicy(builder.Configuration);
 // OpenAPI minimal (ya estaba)

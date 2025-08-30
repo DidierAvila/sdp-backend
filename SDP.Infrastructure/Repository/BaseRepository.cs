@@ -51,6 +51,33 @@ namespace SDP.Infrastructure.Repository
             return result.Entity;
         }
 
+        public async Task<IEnumerable<TEntity>> CreateMany(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
+        {
+            // Convertir la colección a una lista para poder trabajar con ella
+            var entityList = entities.ToList();
+            
+            if (!entityList.Any())
+            {
+                return new List<TEntity>();
+            }
+            try
+            {
+                // Añadir todas las entidades al contexto en una sola operación
+                await EntitySet.AddRangeAsync(entityList, cancellationToken);
+                
+                // Guardar todos los cambios en una sola operación
+                await _context.SaveChangesAsync(cancellationToken);
+                
+                // Las entidades en entityList ya tendrán sus IDs generados después de SaveChangesAsync
+                return entityList;
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, hacer rollback de la transacción
+                throw ex; // Re-lanzar la excepción para que sea manejada por el caller
+            }
+        }
+
         public async Task Update(TEntity entity, CancellationToken cancellationToken)
         {
             _context.Entry(entity).State = EntityState.Modified;
