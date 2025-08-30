@@ -1,6 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.Extensions.DependencyInjection;
+using SDP.Domain.Entities;
 using SDP.Domain.Validators;
 
 namespace SDP.API.Extensions
@@ -14,11 +14,11 @@ namespace SDP.API.Extensions
             services.AddFluentValidationClientsideAdapters();
             
             // Registrar los validadores de entidades manualmente
-            services.AddScoped<IValidator<Domain.Entities.Customer>, CustomerValidator>();
-            services.AddScoped<IValidator<Domain.Entities.Employee>, EmployeeValidator>();
-            services.AddScoped<IValidator<Domain.Entities.Order>, OrderValidator>();
-            services.AddScoped<IValidator<Domain.Entities.Product>, ProductValidator>();
-            services.AddScoped<IValidator<Domain.Entities.Shipper>, ShipperValidator>();
+            services.AddScoped<IValidator<Customer>, CustomerValidator>();
+            services.AddScoped<IValidator<Employee>, EmployeeValidator>();
+            services.AddScoped<IValidator<Order>, OrderValidator>();
+            services.AddScoped<IValidator<Product>, ProductValidator>();
+            services.AddScoped<IValidator<Shipper>, ShipperValidator>();
             
             return services;
         }

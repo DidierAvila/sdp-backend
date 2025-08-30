@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SDP.API.Utils;
 using SDP.Domain.Dtos;
+using SDP.Domain.Exceptions;
 using SDP.Domain.UseCases.Customers.Queries;
 using SDP.Domain.UseCases.Sales.Queries;
 
@@ -26,6 +27,12 @@ namespace SDP.API.Controllers
             [FromQuery] CustomerQueryParameters parameters,
             CancellationToken cancellationToken)
         {
+            // Ejemplo de validación simple
+            if (parameters.PageSize > 50)
+            {
+                throw new SDP.Domain.Exceptions.ValidationException("PageSize", "El tamaño de página no puede ser mayor a 50");
+            }
+            
             var result = await _customerQueryHandler.GetAllCustomersAsync(parameters, cancellationToken);
             return this.CreatePagedResponse(result);
         }
@@ -36,7 +43,9 @@ namespace SDP.API.Controllers
             var result = await _customerQueryHandler.GetCustomerByIdAsync(id, cancellationToken);
             if (result == null)
             {
-                return NotFound();
+                // Ya no necesitamos retornar NotFound() manualmente
+                // El middleware manejará la excepción y enviará la respuesta apropiada
+                throw new SDP.Domain.Exceptions.NotFoundException("Customer", id);
             }
             return Ok(result);
         }

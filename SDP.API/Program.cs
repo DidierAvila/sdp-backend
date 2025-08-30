@@ -1,6 +1,7 @@
 using SDP.API.Extensions;
 using SDP.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
+using SDP.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,9 @@ builder.Services.AddApiMapper();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+// El middleware de manejo de errores debe ser lo primero en la pipeline
+app.UseErrorHandling();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
